@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { searchProducts } from '../services/buyerService';
 import { getCategories } from '../services/productService';
 import ProductCard from '../components/ProductCard';
@@ -24,7 +24,8 @@ const BuyerDashboard = () => {
 
   useEffect(() => {
     fetchCategories();
-    fetchProducts(filters, 1, false);
+    fetchProducts({}, 1, false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchCategories = async () => {
@@ -97,14 +98,13 @@ const BuyerDashboard = () => {
   };
 
   // Load more products when scrolling near bottom
-  const loadMore = useCallback(() => {
-    if (!loadingMore && !loading && hasMore) {
-      fetchProducts(filters, page + 1, true);
-    }
-  }, [loadingMore, loading, hasMore, filters, page]);
-
-  // Intersection Observer for infinite scroll
   useEffect(() => {
+    const loadMore = () => {
+      if (!loadingMore && !loading && hasMore) {
+        fetchProducts(filters, page + 1, true);
+      }
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -114,16 +114,17 @@ const BuyerDashboard = () => {
       { threshold: 0.1 }
     );
 
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
+    const currentTarget = observerTarget.current;
+    if (currentTarget) {
+      observer.observe(currentTarget);
     }
 
     return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
       }
     };
-  }, [loadMore]);
+  }, [loadingMore, loading, hasMore, filters, page]);
 
   return (
     <div className="container mx-auto px-4 py-8">
