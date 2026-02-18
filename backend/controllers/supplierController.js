@@ -247,6 +247,7 @@ const createProduct = async (req, res) => {
       priceHistory,
     });
   } catch (error) {
+    // Handle duplicate SKU errors (additional safety net if explicit check is bypassed)
     if (error.code === 11000) {
       return res.status(400).json({ message: 'Product with this SKU already exists' });
     }

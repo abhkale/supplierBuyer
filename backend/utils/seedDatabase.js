@@ -115,8 +115,8 @@ const seedDatabase = async () => {
       phone: '555-0202'
     });
 
-    // Generate 200 products
-    console.log('Creating 200 products...');
+    // Generate 200+ products
+    console.log('Creating 200+ products...');
     const sampleProducts = generateProducts();
     const createdProducts = [];
     
