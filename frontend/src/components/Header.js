@@ -9,8 +9,13 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
+    // Store current path before navigating
+    const currentPath = window.location.pathname;
     navigate('/login');
-    window.location.reload();
+    // Only reload if we're not already on login page to ensure state is cleared
+    if (currentPath !== '/login') {
+      setTimeout(() => window.location.href = '/login', 100);
+    }
   };
 
   return (

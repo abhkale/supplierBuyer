@@ -16,9 +16,11 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/abhkale/supplierBuyer.git
+git clone <your-repository-url>
 cd supplierBuyer
 ```
+
+**Note:** Replace `<your-repository-url>` with your actual repository URL.
 
 ### 2. Backend Setup
 

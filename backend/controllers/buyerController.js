@@ -61,6 +61,11 @@ const searchProducts = async (req, res) => {
 
     const products = await Product.find(searchQuery).skip(skip).limit(limit);
 
+    // Helper function to get lowest price
+    const getLowestPrice = (prices) => {
+      return prices.length > 0 ? Math.min(...prices.map(p => p.price)) : null;
+    };
+
     // Get prices and apply filters
     const productsWithPrices = await Promise.all(
       products.map(async (product) => {
@@ -78,15 +83,10 @@ const searchProducts = async (req, res) => {
           });
         }
 
-        // Get lowest price
-        const lowestPrice = prices.length > 0 
-          ? Math.min(...prices.map(p => p.price))
-          : null;
-
         return {
           ...product.toObject(),
           prices,
-          lowestPrice,
+          lowestPrice: getLowestPrice(prices),
         };
       })
     );
@@ -94,8 +94,8 @@ const searchProducts = async (req, res) => {
     // Sort results
     if (sortBy === 'price') {
       productsWithPrices.sort((a, b) => {
-        const priceA = a.lowestPrice || Infinity;
-        const priceB = b.lowestPrice || Infinity;
+        const priceA = a.lowestPrice ?? Infinity;
+        const priceB = b.lowestPrice ?? Infinity;
         return priceA - priceB;
       });
     }

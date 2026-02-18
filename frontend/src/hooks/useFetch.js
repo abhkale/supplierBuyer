@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export const useFetch = (fetchFunction, dependencies = []) => {
+export const useFetch = (fetchFunction) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,8 +20,7 @@ export const useFetch = (fetchFunction, dependencies = []) => {
     };
 
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, dependencies);
+  }, [fetchFunction]);
 
   return { data, loading, error, setData };
 };
