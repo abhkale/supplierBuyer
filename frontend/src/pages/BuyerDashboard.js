@@ -22,11 +22,6 @@ const BuyerDashboard = () => {
   });
   const observerTarget = useRef(null);
 
-  useEffect(() => {
-    fetchCategories();
-    fetchProducts({}, 1, false);
-  }, [fetchProducts]);
-
   const fetchCategories = async () => {
     try {
       const data = await getCategories();
@@ -69,6 +64,11 @@ const BuyerDashboard = () => {
       setLoadingMore(false);
     }
   }, [filters]);
+
+  useEffect(() => {
+    fetchCategories();
+    fetchProducts({}, 1, false);
+  }, [fetchProducts]);
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
