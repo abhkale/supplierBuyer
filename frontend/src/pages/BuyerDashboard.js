@@ -25,7 +25,6 @@ const BuyerDashboard = () => {
   useEffect(() => {
     fetchCategories();
     fetchProducts({}, 1, false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchCategories = async () => {
